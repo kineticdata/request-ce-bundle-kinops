@@ -57,9 +57,9 @@ export const HeaderComponent = ({
                 tabIndex="0"
                 onClick={toggleSidebarOpen}
                 id="toggle-sidebar"
+                aria-label="Toggle Sidebar"
               >
-                <span className="sr-only">Toggle Sidebar</span>
-                <i className="fa fa-fw fa-bars" />
+                <i className="fa fa-fw fa-bars" aria-hidden="true" />
               </NavLink>
             </NavItem>
           )}

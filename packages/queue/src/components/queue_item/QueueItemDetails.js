@@ -61,8 +61,8 @@ export const QueueItemDetails = ({
           me={profile}
         />
       )}
-    <div className="">
-      <div className="general">
+    <div>
+      <div className="section--general">
         {discussionsEnabled &&
           isSmallLayout && (
             <button
@@ -72,6 +72,7 @@ export const QueueItemDetails = ({
               <span
                 className="fa fa-fw fa-comments"
                 style={{ fontSize: '16px' }}
+                role="presentation"
               />
               <I18n>Open Discussions</I18n>
             </button>
@@ -79,7 +80,7 @@ export const QueueItemDetails = ({
         <div className="submission__meta">
           <StatusContent queueItem={queueItem} prevAndNext={prevAndNext} />
         </div>
-        <h4>{queueItem.values.Summary}</h4>
+        <h1 className="section--general__title">{queueItem.values.Summary}</h1>
         <ul className="list-group timestamps">
           <li className="list-group-item timestamp">
             <span className="label">
@@ -89,9 +90,9 @@ export const QueueItemDetails = ({
                 }`}
               >
                 {queueItem.form.name}
-              </I18n>{' '}
-              ({queueItem.handle})
-            </span>
+              </I18n>
+            </span>{' '}
+            <span className="value">({queueItem.handle})</span>
           </li>
           <li className="list-group-item timestamp">
             <span className="label">
@@ -158,12 +159,16 @@ export const QueueItemDetails = ({
       </div>
 
       {!prohibitSubtasks && (
-        <div className="subtasks-section">
+        <div className="section--subtasks">
           <h2 className="section__title">
             <I18n>Subtasks</I18n>
             {queueItem.coreState === 'Draft' && (
-              <button className="btn btn-link" onClick={openNewItemMenu}>
-                <span className="fa fa-plus" />
+              <button
+                className="btn btn-link"
+                onClick={openNewItemMenu}
+                aria-label="Create new subtask"
+              >
+                <span className="fa fa-plus" aria-hidden="true" />
               </button>
             )}
           </h2>
@@ -180,15 +185,15 @@ export const QueueItemDetails = ({
           )}
           {queueItem.children.length < 1 && (
             <div className="empty-subtasks">
-              <h5>
+              <span className="empty-subtasks__title">
                 <I18n>No Subtasks to display</I18n>
-              </h5>
-              <h6>
+              </span>
+              <span className="empty-subtasks__message">
                 <I18n>
                   Subtasks are an easy way to create smaller and/or related
                   tasks to parent task.
                 </I18n>
-              </h6>
+              </span>
             </div>
           )}
         </div>

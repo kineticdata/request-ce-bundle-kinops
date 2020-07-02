@@ -20,8 +20,9 @@ const SortButton = props => {
       type="button"
       className="btn btn-link icon-wrapper"
       onClick={props.toggle}
+      aria-label={`Sort by ${icon}`}
     >
-      <span className="icon">
+      <span className="icon" aria-hidden={true}>
         <span
           className={`fa fa-fw fa-sort-amount-${icon}`}
           style={{ fontSize: '16px', color: '#7e8083' }}
@@ -42,8 +43,9 @@ export const FilterMenuMobile = ({ filter, ...props }) => (
             type="button"
             className="btn btn-link icon-wrapper"
             onClick={props.refresh}
+            aria-label="Refresh"
           >
-            <span className="icon">
+            <span className="icon" aria-hidden="true">
               <span
                 className="fa fa-fw fa-refresh"
                 style={{ fontSize: '16px', color: '#7e8083' }}
@@ -54,10 +56,12 @@ export const FilterMenuMobile = ({ filter, ...props }) => (
             type="button"
             className="btn btn-link"
             onClick={props.openFilterMenu()}
+            aria-label="Filter Menu"
           >
             <span
               className={`fa fa-fw fa-sliders`}
               style={{ fontSize: '16px', color: '#7e8083' }}
+              aria-hidden="true"
             />
           </button>
         </div>
@@ -106,6 +110,7 @@ export const FilterMenuMobile = ({ filter, ...props }) => (
                 fontSize: '14px',
                 color: filter.groupBy ? '#1094C4' : '#7e8083',
               }}
+              role="presentation"
             />
           </ShortcutButton>
           <SortButton
@@ -118,6 +123,7 @@ export const FilterMenuMobile = ({ filter, ...props }) => (
             <span
               className="fa fa-fw fa-sort"
               style={{ fontSize: '14px', color: '#1094C4' }}
+              role="presentation"
             />
           </ShortcutButton>
           <SortButton

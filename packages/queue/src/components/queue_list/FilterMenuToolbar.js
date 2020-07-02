@@ -1,29 +1,35 @@
 import React, { Fragment } from 'react';
-import { Popover, PopoverBody, UncontrolledTooltip } from 'reactstrap';
+import {
+  UncontrolledDropdown,
+  UncontrolledTooltip,
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+} from 'reactstrap';
 import { FilterMenuAbstract } from '../filter_menu/FilterMenuAbstract';
 import isarray from 'isarray';
 import { I18n } from '@kineticdata/react';
 
 export const Menu = props => {
   const toggle = props.toggleShowing(props.name);
-  const id = `${props.name}-popover`;
+  const id = `${props.name}-dropdown`;
   return (
     <Fragment>
-      {props.renderButton({ onClick: toggle, id })}
-      <Popover
-        placement="bottom"
+      <Dropdown
         target={id}
         isOpen={props.showing === props.name}
         toggle={toggle}
-        trigger="legacy"
       >
-        <PopoverBody className="filter-menu-popover">
+        {props.renderButton({ onClick: toggle, id })}
+
+        <DropdownMenu className="filter-menu-dropdown">
           {(isarray(props.renderContent)
             ? props.renderContent
             : [props.renderContent]
           ).map((renderContentFn, index) => (
             <div
-              className="filter-menu-popover__content"
+              className="filter-menu-dropdown__content"
               key={`content-${index}`}
             >
               {renderContentFn()}
@@ -31,7 +37,7 @@ export const Menu = props => {
           ))}
           {(props.validations.length > 0 ||
             (props.messages && props.messages.length > 0)) && (
-            <div className="filter-menu-popover__validations">
+            <div className="filter-menu-dropdown__validations">
               {props.validations.map((validation, i) => (
                 <p key={i} className="text-danger">
                   <small>
@@ -49,7 +55,7 @@ export const Menu = props => {
                 ))}
             </div>
           )}
-          <div className="filter-menu-popover__footer">
+          <div className="filter-menu-dropdown__footer">
             <button className="btn btn-link" onClick={props.reset}>
               <I18n>{props.resetLabel || 'Reset'}</I18n>
             </button>
@@ -58,20 +64,23 @@ export const Menu = props => {
               onClick={props.apply}
               disabled={!props.dirty || props.validations.length > 0}
             >
-              <I18n>
-                <I18n>{props.applyLabel || 'Apply'}</I18n>
-              </I18n>
+              <I18n>{props.applyLabel || 'Apply'}</I18n>
             </button>
           </div>
-        </PopoverBody>
-      </Popover>
+        </DropdownMenu>
+      </Dropdown>
     </Fragment>
   );
 };
 
 // Define some simple button components just to cleanup the toolbar component.
 const MenuButton = props => (
-  <button type="button" className="btn btn-subtle" {...props} />
+  <DropdownToggle
+    tag="button"
+    className="btn btn-subtle"
+    {...props}
+    setActiveFromChild
+  />
 );
 const ClearButton = props => {
   const disabled = typeof props.action === 'string';
@@ -82,9 +91,9 @@ const ClearButton = props => {
         id={props.id}
         className={`btn btn-subtle ${disabled ? 'disabled' : ''}`}
         onClick={!disabled ? props.action : undefined}
+        aria-label="Clear Filter"
       >
-        <span className="sr-only">Disable</span>
-        <i className="fa fa-times" />
+        <i className="fa fa-times" aria-hidden="true" />
       </button>
       {disabled && (
         <UncontrolledTooltip placement="right" target={props.id}>
@@ -102,8 +111,9 @@ const SortButton = props => {
       type="button"
       className="btn btn-link icon-wrapper"
       onClick={props.toggle}
+      aria-label={`Sort by ${icon}`}
     >
-      <span className="icon">
+      <span className="icon" aria-hidden="true">
         <span
           className={`fa fa-fw fa-sort-amount-${icon}`}
           style={{ fontSize: '16px', color: '#7e8083' }}
@@ -148,13 +158,12 @@ export const FilterMenuToolbar = ({ filter, refresh }) => (
                   {...popoverProps}
                   renderButton={btnProps =>
                     filter.teams.isEmpty() ? (
-                      <MenuButton {...btnProps}>
+                      <MenuButton {...btnProps} caret>
                         <I18n>Any Team</I18n>
-                        <i className="fa fa-fw fa-caret-down" />
                       </MenuButton>
                     ) : (
                       <div className="btn-group">
-                        <MenuButton {...btnProps}>
+                        <MenuButton {...btnProps} caret>
                           <I18n>Team</I18n>: {props.teamSummary}
                         </MenuButton>
                         <ClearButton action={props.clearTeams} />
@@ -171,15 +180,14 @@ export const FilterMenuToolbar = ({ filter, refresh }) => (
                     {...popoverProps}
                     renderButton={btnProps =>
                       !filter.assignments ? (
-                        <MenuButton {...btnProps}>
+                        <MenuButton {...btnProps} caret>
                           {translate('Any Assignment')}
                           {filter.createdByMe &&
                             ` | ${translate('Created By Me')}`}
-                          <i className="fa fa-fw fa-caret-down" />
                         </MenuButton>
                       ) : (
                         <div className="btn-group">
-                          <MenuButton {...btnProps}>
+                          <MenuButton {...btnProps} caret>
                             {translate('Assignment')}: {props.assignmentSummary}
                             {filter.createdByMe &&
                               ` | ${translate('Created By Me')}`}
@@ -199,13 +207,12 @@ export const FilterMenuToolbar = ({ filter, refresh }) => (
                 {...popoverProps}
                 renderButton={btnProps =>
                   filter.status.isEmpty() ? (
-                    <MenuButton {...btnProps}>
+                    <MenuButton {...btnProps} caret>
                       <I18n>Any Status</I18n>
-                      <i className="fa fa-fw fa-caret-down" />
                     </MenuButton>
                   ) : (
                     <div className="btn-group">
-                      <MenuButton {...btnProps}>
+                      <MenuButton {...btnProps} caret>
                         <I18n>Status</I18n>: {props.statusSummary}
                       </MenuButton>
                       <ClearButton action={props.clearStatus} />
@@ -219,13 +226,12 @@ export const FilterMenuToolbar = ({ filter, refresh }) => (
                 {...popoverProps}
                 renderButton={btnProps =>
                   !filter.dateRange.custom && filter.dateRange.preset === '' ? (
-                    <MenuButton {...btnProps}>
+                    <MenuButton {...btnProps} caret>
                       <I18n>Any Date Range</I18n>
-                      <i className="fa fa-fw fa-caret-down" />
                     </MenuButton>
                   ) : (
                     <div className="btn-group">
-                      <MenuButton {...btnProps}>
+                      <MenuButton {...btnProps} caret>
                         {props.dateRangeSummary}
                       </MenuButton>
                       <ClearButton
@@ -250,7 +256,7 @@ export const FilterMenuToolbar = ({ filter, refresh }) => (
                   resetLabel="Cancel"
                   messages={props.saveMessages}
                   renderButton={btnProps => (
-                    <MenuButton {...btnProps} className="btn btn-primary">
+                    <MenuButton {...btnProps} className="btn-primary">
                       <I18n>Save Filter?</I18n>
                     </MenuButton>
                   )}
@@ -284,6 +290,7 @@ export const FilterMenuToolbar = ({ filter, refresh }) => (
                 type="button"
                 className="btn btn-link icon-wrapper"
                 onClick={refresh}
+                aria-label="Refresh"
               >
                 <span className="icon">
                   <span
@@ -302,7 +309,7 @@ export const FilterMenuToolbar = ({ filter, refresh }) => (
                 renderButton={btnProps =>
                   filter.groupBy ? (
                     <div className="btn-group">
-                      <MenuButton {...btnProps}>
+                      <MenuButton {...btnProps} caret>
                         <span
                           className="fa fa-fw fa-folder-open"
                           style={{ fontSize: '14px', color: '#1094C4' }}
@@ -313,7 +320,7 @@ export const FilterMenuToolbar = ({ filter, refresh }) => (
                     </div>
                   ) : (
                     <div className="btn-group">
-                      <MenuButton {...btnProps}>
+                      <MenuButton {...btnProps} caret>
                         <span
                           className="fa fa-fw fa-folder-open"
                           style={{ fontSize: '14px', color: '#7e8083' }}
@@ -335,7 +342,7 @@ export const FilterMenuToolbar = ({ filter, refresh }) => (
                 name="sorted-by"
                 {...popoverProps}
                 renderButton={btnProps => (
-                  <MenuButton {...btnProps}>
+                  <MenuButton {...btnProps} caret>
                     <span
                       className="fa fa-fw fa-sort"
                       style={{ fontSize: '14px', color: '#1094C4' }}

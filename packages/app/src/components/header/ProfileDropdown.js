@@ -52,10 +52,9 @@ const ProfileDropdownComponent = ({
       nav
       role="button"
       className="icon-wrapper"
-      // aria-label="Profile Menu"
+      aria-label="Profile Menu"
       style={{ padding: '0 0.75rem' }}
     >
-      <span className="sr-only">Profile Menu</span>
       <Avatar size={24} user={profile} previewable={false} />
     </DropdownToggle>
     <DropdownMenu right className="profile-menu">
@@ -77,17 +76,29 @@ const ProfileDropdownComponent = ({
           <I18n>Profile</I18n>
         </Link>
         {profile.spaceAdmin && (
-          <button onClick={openInviteOthersForm} className="dropdown-item">
+          <button
+            onClick={openInviteOthersForm}
+            className="dropdown-item"
+            role="menuitem"
+          >
             <I18n>Invite Others</I18n>
           </button>
         )}
         {!isGuest && (
-          <button onClick={openHelpForm} className="dropdown-item">
+          <button
+            onClick={openHelpForm}
+            className="dropdown-item"
+            role="menuitem"
+          >
             <I18n>Get Help</I18n>
           </button>
         )}
         {!isGuest && (
-          <button onClick={openFeedbackForm} className="dropdown-item">
+          <button
+            onClick={openFeedbackForm}
+            className="dropdown-item"
+            role="menuitem"
+          >
             <I18n>Give Feedback</I18n>
           </button>
         )}
@@ -102,7 +113,7 @@ const ProfileDropdownComponent = ({
           </Link>
         )}
         <div className="dropdown-divider" role="none" />
-        <button onClick={logout} className="dropdown-item">
+        <button onClick={logout} className="dropdown-item" role="menuitem">
           <I18n>Logout</I18n>
         </button>
       </div>

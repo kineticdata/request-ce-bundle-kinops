@@ -28,7 +28,6 @@ input[type='button'],
   -ms-user-select: none;
   user-select: none;
   &:hover,
-  &:focus,
   &:active {
     text-decoration: none;
     outline: none;
@@ -55,7 +54,7 @@ input[type='button'],
 // Secondary Button
 .btn-secondary {
   @extend .btn;
-  color: $white;
+  color: $gray90;
   @include setButtonColorAndHover($secondary);
   &.disabled,
   &[disabled] {
@@ -70,7 +69,6 @@ input[type='button'],
   @include setButtonColorAndHover(transparent);
   color: $link-color;
   &:hover,
-  &:focus,
   &:active {
     color: tint($link-color, 10%);
     text-decoration: none;
@@ -87,7 +85,6 @@ input[type='button'],
   @include setButtonColorAndHover(transparent);
   color: $link-color;
   &:hover,
-  &:focus,
   &:active {
     color: tint($link-color, 10%);
     text-decoration: none;
@@ -101,7 +98,6 @@ input[type='button'],
   color: $gray80;
 
   &:hover,
-  &:focus,
   &:active {
     color: $link-color;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
@@ -110,6 +106,23 @@ input[type='button'],
     cursor: not-allowed;
   }
 }
+
+
+
+// Button Success
+.btn-success{
+  @extend .btn;
+  color: $white;
+  border-color: $white;
+  @include setButtonColorAndHover( #028302);
+  background-color: rgba( #028302, 1);
+  &.disabled,
+  &[disabled] {
+    background-color: lighten( #028302, 5%);
+    border-color: lighten( #028302, 5%);
+  }
+}
+
 // Button Inverse
 .btn-inverse {
   color: $primary;
@@ -127,7 +140,7 @@ input[type='button'],
 .btn-icon {
   border: 0;
   background-color: transparent;
-  color: $gray50;
+  color: $gray60;
   &:hover {
     color: $primary;
   }
@@ -148,7 +161,6 @@ input[type='button'],
   border-color: $primary;
   color: $primary;
   &:not(:disabled):not(.disabled):hover,
-  &:not(:disabled):not(.disabled):focus,
   &:not(:disabled):not(.disabled):active {
     background-color: $primary;
     border-color: $primary;
@@ -161,10 +173,21 @@ input[type='button'],
   border-color: $secondary;
   color: $secondary;
   &:not(:disabled):not(.disabled):hover,
-  &:not(:disabled):not(.disabled):focus,
   &:not(:disabled):not(.disabled):active {
     background-color: $secondary;
     border-color: $secondary;
+  }
+}
+
+// Button Outline Danger
+.btn-outline-danger {
+  border-color: $red;
+  color: darken($red, 18);
+
+  &:not(:disabled):not(.disabled):hover,
+  &:not(:disabled):not(.disabled):active {
+    background-color: $red;
+    border-color: $red;
   }
 }
 

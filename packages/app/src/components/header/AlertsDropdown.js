@@ -15,8 +15,8 @@ const AlertsDropdownComponent = ({
   toggle,
 }) => (
   <Dropdown isOpen={isOpen} toggle={toggle}>
-    <DropdownToggle nav role="button">
-      <span className="fa fa-fw fa-bell" />
+    <DropdownToggle nav role="button" aria-label="Alerts">
+      <span className="fa fa-fw fa-bell" alt="Alerts" />
       {alerts &&
         alerts.size > 0 && (
           <span className="badge badge-secondary">{alerts.size}</span>
